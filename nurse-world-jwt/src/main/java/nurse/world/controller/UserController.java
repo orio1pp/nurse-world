@@ -2,18 +2,17 @@ package nurse.world.controller;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import nurse.world.service.UserService;
 import nurse.world.utils.dto.Exceptions.IncorrectUserDataException;
 import nurse.world.utils.dto.Exceptions.UserAlreadyExistsException;
 import nurse.world.utils.dto.UserDTO;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @ApplicationScoped
+@CrossOrigin
 @Path("/user")
 public class UserController {
     @Inject
@@ -22,8 +21,8 @@ public class UserController {
     @GET
     @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response logUser(UserDTO user){
-        String jwt = userService.generateJWT(user);
+    public Response logUser(@QueryParam("username") String username, @QueryParam("password") String password){
+        String jwt = userService.generateJWT(username, password);
         return Response.ok(jwt).build();
     }
     @POST

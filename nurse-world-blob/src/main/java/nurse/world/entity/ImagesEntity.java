@@ -1,4 +1,4 @@
-package nurse.world.model;
+package nurse.world.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
@@ -11,12 +11,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "images")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Images extends PanacheEntity {
+public class ImagesEntity extends PanacheEntity {
+
     private String name;
     private String path;
     @Transactional
-    public static void add(Images images){
-        images.persist();
+    public static void add(ImagesEntity imagesEntity){
+        imagesEntity.persist();
     }
 
     public String getName() {
@@ -34,4 +35,9 @@ public class Images extends PanacheEntity {
     public void setPath(String path) {
         this.path = path;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 }

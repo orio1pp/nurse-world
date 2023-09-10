@@ -12,11 +12,11 @@ import nurse.world.utils.dto.UserDTO;
 public class UserService {
     @Inject
     private JwtService jwtService;
-    public String generateJWT(UserDTO user){
-        if (!User.existsByUsernameAndPassword(user.getUsername(), user.getPassword())){
+    public String generateJWT(String username, String password){
+        if (!User.existsByUsernameAndPassword(username, password)){
             return null;
         }
-        return jwtService.generateJwt("user");
+        return jwtService.generateJwt("user", username);
     }
     public void registerUser(UserDTO user) throws UserAlreadyExistsException, IncorrectUserDataException  {
         if(User.existsByUsername(user.getUsername())){

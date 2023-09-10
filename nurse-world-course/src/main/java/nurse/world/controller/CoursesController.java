@@ -53,7 +53,7 @@ public class CoursesController {
             CourseMainPageDTO courseMainPageDTO = coursesService.getCourseMainPage(courseName);
             return Response.ok(courseMainPageDTO).build();
         }catch (CourseNotExistException e){
-            return Response.status(Response.Status.BAD_REQUEST).build();
+                return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 
