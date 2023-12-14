@@ -4,8 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import nurse.world.model.Course;
 import nurse.world.service.CoursesService;
 import nurse.world.utils.Exceptions.CourseAlreadyExistsException;
@@ -13,6 +15,7 @@ import nurse.world.utils.Exceptions.CourseNotExistException;
 import nurse.world.utils.Exceptions.IncorrectCourseDataException;
 import nurse.world.utils.dto.CourseMainPageDTO;
 import nurse.world.utils.dto.CreateCoursesDTO;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 
 import java.util.List;
@@ -20,7 +23,8 @@ import java.util.List;
 @ApplicationScoped
 @Path("/courses")
 public class CoursesController {
-
+    @Inject
+    JsonWebToken jwt;
     @Inject
     CoursesService coursesService;
 
@@ -48,7 +52,9 @@ public class CoursesController {
     @GET
     @Path("courses/mainpage")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCourseMainPage(@QueryParam("courseName") String courseName){
+    public Response getCourseMainPage(@QueryParam("courseName") String courseName, @Context SecurityContext ctx){
+        String name2 = jwt.getName();
+        String name = ctx.getUserPrincipal().getName();
         try{
             CourseMainPageDTO courseMainPageDTO = coursesService.getCourseMainPage(courseName);
             return Response.ok(courseMainPageDTO).build();
@@ -56,5 +62,4 @@ public class CoursesController {
                 return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
-
 }

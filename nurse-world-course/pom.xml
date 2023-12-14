@@ -53,5 +53,9 @@
           <version>6.0.5</version>
           <scope>compile</scope>
       </dependency>
+      <dependency>
+          <groupId>org.eclipse.microprofile.jwt</groupId>
+          <artifactId>microprofile-jwt-auth-api</artifactId>
+      </dependency>
   </dependencies>
 </project>

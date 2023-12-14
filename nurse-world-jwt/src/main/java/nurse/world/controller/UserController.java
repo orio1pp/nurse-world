@@ -17,21 +17,23 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class UserController {
     @Inject
     UserService userService;
-
     @GET
     @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response logUser(@QueryParam("username") String username, @QueryParam("password") String password){
+    public Response logUser(@QueryParam("username") String username, @QueryParam("password") String password) {
         String jwt = userService.generateJWT(username, password);
+        if (jwt == null) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
         return Response.ok(jwt).build();
     }
     @POST
     @Path("register")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response registerUser(UserDTO user){
+    public Response registerUser(UserDTO user) {
         try{
             userService.registerUser(user);
-        }catch (IncorrectUserDataException e){
+        }catch (IncorrectUserDataException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }catch (UserAlreadyExistsException e){
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
