@@ -1,28 +1,34 @@
 package nurse.world.utils.dto;
 
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import nurse.world.model.CourseTopic;
-import nurse.world.model.Images;
+import nurse.world.model.*;
 
 import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCoursesDTO {
-
     private String title;
-    private String creator;
     private String dateCreation;
     private double duration;
     private String stages;
     private String description;
     private double price;
-
     private String motivation;
-
     private List<Images> images;
-
     private List<CourseTopic> courseTopic;
+
+    private LearningInfo learningInfo;
+
+    private Speaker speaker;
+
+    private PlaceInfo placeInfo;
+
+    private List<Content> content;
+
+    private String modality;
 
     public String getTitle() {
         return title;
@@ -30,14 +36,6 @@ public class CreateCoursesDTO {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
     }
 
     public String getDateCreation() {
@@ -102,5 +100,45 @@ public class CreateCoursesDTO {
 
     public void setCourseTopic(List<CourseTopic> courseTopic) {
         this.courseTopic = courseTopic;
+    }
+
+    public LearningInfo getLearningInfo() {
+        return learningInfo;
+    }
+
+    public void setLearningInfo(LearningInfo learningInfo) {
+        this.learningInfo = learningInfo;
+    }
+
+    public Speaker getSpeaker() {
+        return speaker;
+    }
+
+    public void setSpeaker(Speaker speaker) {
+        this.speaker = speaker;
+    }
+
+    public PlaceInfo getPlaceInfo() {
+        return placeInfo;
+    }
+
+    public void setPlaceInfo(PlaceInfo placeInfo) {
+        this.placeInfo = placeInfo;
+    }
+
+    public List<Content> getContent() {
+        return content;
+    }
+
+    public void setContent(List<Content> content) {
+        this.content = content;
+    }
+
+    public String getModality() {
+        return modality;
+    }
+
+    public void setModality(String modality) {
+        this.modality = modality;
     }
 }

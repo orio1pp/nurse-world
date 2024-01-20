@@ -19,32 +19,31 @@ import java.util.List;
 @NoArgsConstructor
 public class Course extends PanacheEntity {
     private String title;
-    private String creator;
     private String dateCreation;
-    private double duration;
-    private String stages;
     private String description;
-
     private double price;
-
     private String motivation;
+    private String modality;
     @OneToMany
     private List<Images> images;
-
     @OneToMany
     private List<CourseTopic> courseTopic;
-
-
+    @OneToOne
+    private LearningInfo learningInfo;
+    @OneToOne
+    private Speaker speaker;
+    @OneToOne
+    private PlaceInfo placeInfo;
+    @OneToMany
+    private List<Content> content;
     @Transactional
     public static boolean add(CreateCoursesDTO createCoursesDTO){
         if(!checkValidDate(createCoursesDTO.getDateCreation())){
             return false;
         }
         Course course = new Course();
-        course.setCreator(createCoursesDTO.getCreator());
         course.setDescription(createCoursesDTO.getDescription());
-        course.setDuration(createCoursesDTO.getDuration());
-        course.setStages(createCoursesDTO.getStages());
+        course.setModality(createCoursesDTO.getModality());
         course.setTitle(createCoursesDTO.getTitle());
         course.setDateCreation(createCoursesDTO.getDateCreation());
         course.setPrice(createCoursesDTO.getPrice());
@@ -55,6 +54,19 @@ public class Course extends PanacheEntity {
 
         saveCoursesTopic(createCoursesDTO.getCourseTopic());
         course.setCourseTopic(createCoursesDTO.getCourseTopic());
+
+        LearningInfo.add(createCoursesDTO.getLearningInfo());
+        course.setLearningInfo(createCoursesDTO.getLearningInfo());
+        //comprobar si el speaker ja existia
+        Speaker.add(createCoursesDTO.getSpeaker());
+        course.setSpeaker(createCoursesDTO.getSpeaker());
+
+        PlaceInfo.add(createCoursesDTO.getPlaceInfo());
+        course.setPlaceInfo(createCoursesDTO.getPlaceInfo());
+
+        saveContent(createCoursesDTO.getContent());
+        course.setContent(createCoursesDTO.getContent());
+
         course.persist();
         return true;
     }
@@ -93,6 +105,13 @@ public class Course extends PanacheEntity {
             CourseTopic.add(courseTopic);
         }
     }
+
+    private static void saveContent(List<Content> contents){
+        for (Content content : contents){
+            Content.add(content);
+        }
+    }
+
     private static boolean checkValidDate(String date){
         DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         sdf.setLenient(false);
@@ -107,10 +126,7 @@ public class Course extends PanacheEntity {
     public CourseMainPageDTO toCourseMainPageDTO(Course course){
         return new CourseMainPageDTO(
                 course.getTitle(),
-                course.getCreator(),
                 course.getDateCreation(),
-                course.getDuration(),
-                course.getStages(),
                 course.getDescription(),
                 course.getPrice(),
                 course.getMotivation(),
@@ -123,36 +139,12 @@ public class Course extends PanacheEntity {
         this.title = title;
     }
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     public String getDateCreation() {
         return dateCreation;
     }
 
     public void setDateCreation(String dateCreation) {
         this.dateCreation = dateCreation;
-    }
-
-    public double getDuration() {
-        return duration;
-    }
-
-    public void setDuration(double duration) {
-        this.duration = duration;
-    }
-
-    public String getStages() {
-        return stages;
-    }
-
-    public void setStages(String stages) {
-        this.stages = stages;
     }
 
     public String getDescription() {
@@ -197,5 +189,45 @@ public class Course extends PanacheEntity {
 
     public void setCourseTopic(List<CourseTopic> courseTopic) {
         this.courseTopic = courseTopic;
+    }
+
+    public LearningInfo getLearningInfo() {
+        return learningInfo;
+    }
+
+    public void setLearningInfo(LearningInfo learningInfo) {
+        this.learningInfo = learningInfo;
+    }
+
+    public Speaker getSpeaker() {
+        return speaker;
+    }
+
+    public void setSpeaker(Speaker speaker) {
+        this.speaker = speaker;
+    }
+
+    public PlaceInfo getPlaceInfo() {
+        return placeInfo;
+    }
+
+    public void setPlaceInfo(PlaceInfo placeInfo) {
+        this.placeInfo = placeInfo;
+    }
+
+    public List<Content> getContent() {
+        return content;
+    }
+
+    public void setContent(List<Content> content) {
+        this.content = content;
+    }
+
+    public String getModality() {
+        return modality;
+    }
+
+    public void setModality(String modality) {
+        this.modality = modality;
     }
 }

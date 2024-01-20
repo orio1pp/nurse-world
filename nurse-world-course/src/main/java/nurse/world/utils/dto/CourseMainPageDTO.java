@@ -7,7 +7,6 @@ import java.util.List;
 
 public class CourseMainPageDTO {
     private String title;
-    private String creator;
     private String dateCreation;
     private double duration;
     private String stages;
@@ -17,7 +16,7 @@ public class CourseMainPageDTO {
     private List<Images> images;
     private List<CourseTopic> courseTopic;
 
-    public CourseMainPageDTO(String title, String creator, String dateCreation, double duration, String stages, String description, double price, String motivation, List<Images> images, List<CourseTopic> courseTopic) {
+    public CourseMainPageDTO(String title, String dateCreation, double duration, String stages, String description, double price, String motivation, List<Images> images, List<CourseTopic> courseTopic) {
     }
 
     public String getTitle() {
@@ -27,15 +26,6 @@ public class CourseMainPageDTO {
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     public String getDateCreation() {
         return dateCreation;
     }
