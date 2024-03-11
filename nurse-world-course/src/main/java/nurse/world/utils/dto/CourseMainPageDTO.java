@@ -1,9 +1,9 @@
 package nurse.world.utils.dto;
 
-import nurse.world.model.CourseTopic;
-import nurse.world.model.Images;
-
 import java.util.List;
+
+import nurse.world.model.Course.CourseTopic;
+import nurse.world.model.Course.Images;
 
 public class CourseMainPageDTO {
     private String title;

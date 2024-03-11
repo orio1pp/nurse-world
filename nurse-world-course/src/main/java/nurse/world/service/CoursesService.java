@@ -2,12 +2,11 @@ package nurse.world.service;
 
 import io.quarkus.panache.common.Page;
 import jakarta.inject.Singleton;
-import nurse.world.model.Course;
+import nurse.world.model.Course.Content;
+import nurse.world.model.Course.Course;
 import nurse.world.utils.Exceptions.CourseAlreadyExistsException;
 import nurse.world.utils.Exceptions.CourseNotExistException;
 import nurse.world.utils.Exceptions.IncorrectCourseDataException;
-import nurse.world.utils.dto.CourseMainPageDTO;
-import nurse.world.utils.dto.CreateCoursesDTO;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class CoursesService {
                 .list();
     }
 
-    public void addCourse(CreateCoursesDTO courses) throws IncorrectCourseDataException, CourseAlreadyExistsException {
+    public void addCourse(Course courses) throws IncorrectCourseDataException, CourseAlreadyExistsException {
         if(Course.checkCourseExist(courses.getTitle())){
             throw new CourseAlreadyExistsException("Course already exists");
         }
@@ -31,11 +30,20 @@ public class CoursesService {
         };
     }
 
-    public CourseMainPageDTO getCourseMainPage(String title) throws CourseNotExistException {
+    public Course getCourseMainPage(String title) throws CourseNotExistException {
         if(!Course.checkCourseExist(title)){
             throw new CourseNotExistException("Course does not exists");
         }
         Course course = Course.getCoursesByTitle(title);
-        return course.toCourseMainPageDTO(course);
+        return course;
+    }
+
+    public List<Content> getContentCourseById(double courseId) throws CourseNotExistException{
+        Course course = Course.getCourseById(courseId);
+        if(course.equals(null)){
+            throw new CourseNotExistException("Course does not exists");
+        }
+        return course.getContent();
+
     }
 }

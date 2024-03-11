@@ -8,13 +8,12 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
-import nurse.world.model.Course;
+import nurse.world.model.Course.Content;
+import nurse.world.model.Course.Course;
 import nurse.world.service.CoursesService;
 import nurse.world.utils.Exceptions.CourseAlreadyExistsException;
 import nurse.world.utils.Exceptions.CourseNotExistException;
 import nurse.world.utils.Exceptions.IncorrectCourseDataException;
-import nurse.world.utils.dto.CourseMainPageDTO;
-import nurse.world.utils.dto.CreateCoursesDTO;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 
@@ -38,9 +37,9 @@ public class CoursesController {
     @POST
     @Path("courses")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response setCourse(CreateCoursesDTO courses){
+    public Response setCourse(Course course){
         try {
-            coursesService.addCourse(courses);
+            coursesService.addCourse(course);
             return Response.ok().build();
         }catch (IncorrectCourseDataException e){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -52,14 +51,32 @@ public class CoursesController {
     @GET
     @Path("courses/mainpage")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCourseMainPage(@QueryParam("courseName") String courseName, @Context SecurityContext ctx){
+    public Response getCourseMainPage(@QueryParam("courseName") String courseName, @Context SecurityContext ctx) {
         String name2 = jwt.getName();
         String name = ctx.getUserPrincipal().getName();
         try{
-            CourseMainPageDTO courseMainPageDTO = coursesService.getCourseMainPage(courseName);
-            return Response.ok(courseMainPageDTO).build();
+            Course course = coursesService.getCourseMainPage(courseName);
+            return Response.ok(course).build();
         }catch (CourseNotExistException e){
                 return Response.status(Response.Status.BAD_REQUEST).build();
         }
+    }
+
+    @GET
+    @Path("course/content")
+    public Response getContentCourseById(@QueryParam("id") double id) {
+        try {
+            List<Content> contentCourse = coursesService.getContentCourseById(id);
+            return Response.ok(contentCourse).build();
+        }catch (CourseNotExistException e){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+    }
+
+    @GET
+    @Path("user")
+    public Response getUserCourses(@Context SecurityContext ctx) {
+        String name = ctx.getUserPrincipal().getName();
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }

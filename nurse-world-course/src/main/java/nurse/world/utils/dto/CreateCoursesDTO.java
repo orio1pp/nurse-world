@@ -1,10 +1,13 @@
 package nurse.world.utils.dto;
 
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import nurse.world.model.*;
+import nurse.world.model.Course.Content;
+import nurse.world.model.Course.CourseTopic;
+import nurse.world.model.Course.Images;
+import nurse.world.model.Course.LearningInfo;
+import nurse.world.model.Course.PlaceInfo;
+import nurse.world.model.Course.Speaker;
 
 import java.util.List;
 @NoArgsConstructor

@@ -8,9 +8,9 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <groupId>nurse</groupId>
-  <artifactId>test</artifactId>
+  <artifactId>nurse-world-courses</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>test</name>
+  <name>nurse-world-courses</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -21,7 +21,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
-      <scope>test</scope>
+      <scope>nurse-world-courses</scope>
     </dependency>
       <dependency>
           <groupId>io.quarkus</groupId>
@@ -45,7 +45,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.2</version>
-      <scope>test</scope>
+      <scope>nurse-world-courses</scope>
     </dependency>
       <dependency>
           <groupId>org.springframework</groupId>
